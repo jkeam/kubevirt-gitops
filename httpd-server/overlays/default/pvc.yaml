@@ -5,7 +5,7 @@ metadata:
   namespace: httpd-server
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 40Gi
