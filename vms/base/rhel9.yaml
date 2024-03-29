@@ -20,6 +20,7 @@ metadata:
     vm.kubevirt.io/template.revision: "1"
     vm.kubevirt.io/template.version: v0.26.0
   name: rhel9
+  namespace: chrisj
 spec:
   dataVolumeTemplates:
   - apiVersion: cdi.kubevirt.io/v1beta1
@@ -84,6 +85,14 @@ spec:
             user: redhat
             password: 8etj2bea5fJ9
             chpasswd: { expire: False }
-            ssh_authorized_keys:
-            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDX0vQc2syIUdVpQEevz2Lhpuh1jePdAL70f8RLG0S/w4r0L+9+JHNyQbjYycEoLHWI1nH/o4zAPsQADQdRnyG/LmV0fI3lSkdsZQfK32fobLKSg2Yq1xXYmOco/ZtDbPEHvDST/uymaPEixVPoAa/H/E/QsqTpBEPW+x98vqOepfnQG7tOouuHfWRGwu1Gs8RqT/IL+s3OPRMK0vOpaNmH+oiQgL9RPI5K06a4g6xp/xsiE0HkPnZTnp0kRC2DwPzzbb2PZ5C4eZy8fm/RjOfJfuRaMoZdkW1ZMPil4Vzwylutwk7tXuVxbwNbtPxpWV4yPa0ZBtCdy8mO6eDEBd/b jkeam@jkeam-mac
+            runcmd:
+                - [ setsebool, -P, virt_qemu_ga_manage_ssh, on ]
         name: cloudinitdisk
+      accessCredentials:
+        - sshPublicKey:
+            propagationMethod:
+              qemuGuestAgent:
+                users: ["redhat"]
+            source:
+              secret:
+                secretName: authorized-keys
