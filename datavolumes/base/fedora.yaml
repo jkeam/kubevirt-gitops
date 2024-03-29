@@ -13,7 +13,6 @@ spec:
       requests:
         storage: 20Gi
     volumeMode: Block
-    storageClassName: ocs-storagecluster-ceph-rbd
   source:
     http:
       url: https://download.fedoraproject.org/pub/fedora/linux/releases/39/Cloud/aarch64/images/Fedora-Cloud-Base-39-1.5.aarch64.raw.xz

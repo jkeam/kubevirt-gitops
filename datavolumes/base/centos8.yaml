@@ -8,13 +8,11 @@ metadata:
 spec:
   pvc:
     accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
     volumeMode: Block
-    storageClassName: ocs-storagecluster-ceph-rbd
   source:
     http:
       url: https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20230501.0.x86_64.qcow2
-
