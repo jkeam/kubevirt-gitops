@@ -1,2 +1,3 @@
 resources:
 - rhel9.yaml
+- service.yaml

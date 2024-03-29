@@ -14,6 +14,7 @@ metadata:
       ]
   labels:
     app: rhel9
+    vm.kubevirt.io/name: rhel9
     vm.kubevirt.io/template: rhel9-server-tiny
     vm.kubevirt.io/template.namespace: openshift
     vm.kubevirt.io/template.revision: "1"

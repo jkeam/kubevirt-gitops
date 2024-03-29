@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: rhel9
+  namespace: chrisj
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+spec:
+  ports:
+  - port: 22
+    targetPort: 22
+    protocol: TCP
+  type: LoadBalancer
+  selector:
+    vm.kubevirt.io/name: rhel9
