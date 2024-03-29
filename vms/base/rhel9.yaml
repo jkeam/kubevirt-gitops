@@ -1,0 +1,88 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    vm.kubevirt.io/validations: |
+      [
+        {
+          "name": "minimal-required-memory",
+          "path": "jsonpath::.spec.domain.resources.requests.memory",
+          "rule": "integer",
+          "message": "This VM requires more memory.",
+          "min": 1073741824
+        }
+      ]
+  labels:
+    app: rhel9
+    vm.kubevirt.io/template: rhel9-server-tiny
+    vm.kubevirt.io/template.namespace: openshift
+    vm.kubevirt.io/template.revision: "1"
+    vm.kubevirt.io/template.version: v0.26.0
+  name: rhel9
+spec:
+  dataVolumeTemplates:
+  - apiVersion: cdi.kubevirt.io/v1beta1
+    kind: DataVolume
+    metadata:
+      name: rhel9
+    spec:
+      sourceRef:
+        kind: DataSource
+        name: rhel9
+        namespace: openshift-virtualization-os-images
+      storage:
+        resources:
+          requests:
+            storage: 30Gi
+  running: true
+  template:
+    metadata:
+      annotations:
+        vm.kubevirt.io/flavor: small
+        vm.kubevirt.io/os: rhel9
+        vm.kubevirt.io/workload: server
+      labels:
+        kubevirt.io/domain: rhel9
+        kubevirt.io/size: small
+    spec:
+      domain:
+        cpu:
+          cores: 4
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rootdisk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          interfaces:
+          - masquerade: {}
+            model: virtio
+            name: default
+          networkInterfaceMultiqueue: true
+          rng: {}
+        machine:
+          type: pc-q35-rhel9.2.0
+        resources:
+          requests:
+            memory: 4Gi
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 180
+      volumes:
+      - dataVolume:
+          name: rhel9
+        name: rhel9
+      - cloudInitConfigDrive:
+          userData: |-
+            #cloud-config
+            user: redhat
+            password: 8etj2bea5fJ9
+            chpasswd: { expire: False }
+            ssh_authorized_keys:
+            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDX0vQc2syIUdVpQEevz2Lhpuh1jePdAL70f8RLG0S/w4r0L+9+JHNyQbjYycEoLHWI1nH/o4zAPsQADQdRnyG/LmV0fI3lSkdsZQfK32fobLKSg2Yq1xXYmOco/ZtDbPEHvDST/uymaPEixVPoAa/H/E/QsqTpBEPW+x98vqOepfnQG7tOouuHfWRGwu1Gs8RqT/IL+s3OPRMK0vOpaNmH+oiQgL9RPI5K06a4g6xp/xsiE0HkPnZTnp0kRC2DwPzzbb2PZ5C4eZy8fm/RjOfJfuRaMoZdkW1ZMPil4Vzwylutwk7tXuVxbwNbtPxpWV4yPa0ZBtCdy8mO6eDEBd/b jkeam@jkeam-mac
+        name: cloudinitdisk

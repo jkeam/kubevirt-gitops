@@ -1,3 +1,2 @@
 resources:
-- fedora.yaml
-- centos.yaml
+- rhel9.yaml
