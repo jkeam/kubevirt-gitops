@@ -70,7 +70,6 @@ spec:
         resources:
           requests:
             memory: 2Gi
-      evictionStrategy: LiveMigrate
       networks:
       - name: default
         pod: {}
