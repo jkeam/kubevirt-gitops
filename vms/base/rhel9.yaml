@@ -76,7 +76,7 @@ spec:
       volumes:
       - dataVolume:
           name: rhel9
-        name: rhel9
+        name: rootdisk
       - cloudInitConfigDrive:
           userData: |-
             #cloud-config
