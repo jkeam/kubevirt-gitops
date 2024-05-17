@@ -7,7 +7,6 @@ resources:
   - sa.yaml
   - clusterrole.yml
   - clusterrolebinding.yml
-  - permissions.yaml
   - image-stream.yaml
   - httpd-bc.yaml
   - service.yaml
